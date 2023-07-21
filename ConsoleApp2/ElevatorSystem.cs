@@ -16,6 +16,15 @@ namespace ElevatorSystem
             elevators = new List<Elevator>();
             floors = new List<Floor>();
         }
+        // Implementation of the new method to get the list of elevators
+        public List<Elevator> GetElevators()
+        {
+            return elevators;
+        }
+        public List<Floor> GetFloors()
+        {
+            return floors;
+        }
 
         public void InitializeElevators(int count)
         {

@@ -1,5 +1,6 @@
-using ElevatorSystem.Interfaces;
 using NUnit.Framework;
+using ElevatorSystem.Interfaces;
+using ElevatorSystem.Models;
 
 namespace ElevatorSystem.Tests
 {
@@ -7,36 +8,81 @@ namespace ElevatorSystem.Tests
     public class ElevatorSystemTests
     {
         [Test]
-        public void TestElevatorMovement()
+        public void ElevatorSystem_InitializeElevators_ShouldCreateElevatorsWithCorrectCount()
         {
             // Arrange
             IElevatorSystem elevatorSystem = new ElevatorSystem();
-            elevatorSystem.InitializeElevators(1);
-            elevatorSystem.InitializeFloors(5);
+            int expectedElevatorCount = 2;
 
             // Act
-            elevatorSystem.SetPeopleWaitingOnFloor(1, 2); // Set 2 people waiting on floor 1
-            elevatorSystem.SetPeopleWaitingOnFloor(3, 3); // Set 3 people waiting on floor 3
-            elevatorSystem.MoveElevators();
+            elevatorSystem.InitializeElevators(expectedElevatorCount);
 
             // Assert
-            // Add appropriate assertions here to check if elevators moved as expected
+            Assert.AreEqual(expectedElevatorCount, elevatorSystem.GetElevators().Count);
         }
 
         [Test]
-        public void TestElevatorEmbarkDisembark()
+        public void ElevatorSystem_InitializeFloors_ShouldCreateFloorsWithCorrectCount()
         {
             // Arrange
             IElevatorSystem elevatorSystem = new ElevatorSystem();
-            elevatorSystem.InitializeElevators(1);
-            elevatorSystem.InitializeFloors(5);
+            int expectedFloorCount = 5;
 
             // Act
-            elevatorSystem.SetPeopleWaitingOnFloor(1, 8); // Set 8 people waiting on floor 1
-            elevatorSystem.MoveElevators();
+            elevatorSystem.InitializeFloors(expectedFloorCount);
 
             // Assert
-            // Add appropriate assertions here to check if elevators embarked and disembarked passengers as expected
+            Assert.AreEqual(expectedFloorCount, elevatorSystem.GetFloors().Count);
         }
+
+        [Test]
+        public void ElevatorSystem_SetPeopleWaitingOnFloor_ShouldSetCorrectNumberOfPeople()
+        {
+            // Arrange
+            IElevatorSystem elevatorSystem = new ElevatorSystem();
+            elevatorSystem.InitializeFloors(5);
+            int floorNumber = 1;
+            int numberOfPeople = 3;
+
+            // Act
+            elevatorSystem.SetPeopleWaitingOnFloor(floorNumber, numberOfPeople);
+
+            // Assert
+            Assert.AreEqual(numberOfPeople, elevatorSystem.GetFloors()[floorNumber - 1].NumberOfPeopleWaiting);
+        }
+
+        [Test]
+        public void Elevator_MoveToFloor_ShouldMoveElevatorToCorrectFloor()
+        {
+            // Arrange
+            Elevator elevator = new Elevator();
+            int initialFloor = 1;
+            int destinationFloor = 3;
+
+            // Act
+            elevator.MoveToFloor(destinationFloor);
+
+            // Assert
+            Assert.AreEqual(destinationFloor, elevator.CurrentFloor);
+        }
+
+        [Test]
+        public void Elevator_Embark_ShouldIncreaseNumberOfPeopleInElevator()
+        {
+            // Arrange
+            Elevator elevator = new Elevator();
+            Floor floor = new Floor(1);
+            int numberOfPeople = 2;
+            floor.NumberOfPeopleWaiting = numberOfPeople;
+
+            // Act
+            elevator.Embark(floor);
+
+            // Assert
+            Assert.AreEqual(numberOfPeople, elevator.NumberOfPeople);
+            Assert.AreEqual(0, floor.NumberOfPeopleWaiting);
+        }
+
+      
     }
 }

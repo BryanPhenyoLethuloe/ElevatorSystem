@@ -1,4 +1,6 @@
-﻿namespace ElevatorSystem.Interfaces
+﻿using ElevatorSystem.Models;
+
+namespace ElevatorSystem.Interfaces
 {
     public interface IElevatorSystem
     {
@@ -7,5 +9,8 @@
         void SetPeopleWaitingOnFloor(int floorNumber, int numberOfPeople);
         void MoveElevators();
         void DisplayStatus();
+        List<Elevator> GetElevators();
+        List<Floor> GetFloors();
+
     }
 }
