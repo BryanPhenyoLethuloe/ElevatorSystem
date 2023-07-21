@@ -65,7 +65,7 @@ namespace ElevatorSystem.Models
             else
             {
                 // Cannot embark more people due to weight limit or available space
-                // Handle this case as per the application's requirement
+            
             }
         }
 
